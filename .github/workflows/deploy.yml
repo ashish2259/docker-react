@@ -8,46 +8,17 @@ on:
     
 
 jobs:
-  build:
+  deploy:
 
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
+    
         
 
     steps:
     - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: "installing depedenices"
-      run: npm i
-
-    - name: "build command"
-      run: npm run build
-  test:
-
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-        
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v4
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
-    - name: "installing depedenices"
-      run: npm i
-
-    - name: "command to run test command"
-      run: npm run test
-      
+    - name: to create i iamge
+      run: docker build . -t ashish1817/githibactons
+    - run: echo "${{secrets.DOCKER_HUB_PASSWORD}} | docker login -u ashish1817 --password-stdin  
+    - run:  docker push ashish1817/githibactons:latest
+  
